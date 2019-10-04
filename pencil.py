@@ -16,7 +16,7 @@ class Pencil:
             self.write_char(char, paper)
 
     def calculate_write_cost(self, char):
-        if char.isupper():
+        if char.isupper() or char.isnumeric():
             return 2
         elif char.islower():
             return 1
@@ -24,7 +24,7 @@ class Pencil:
             return 0
 
     def write_char(self, char, paper):
-        if self.point_durability==0:
+        if self.calculate_write_cost(char)>self.point_durability:
             paper.text+=' '
         else:
             self.point_durability-=self.calculate_write_cost(char)

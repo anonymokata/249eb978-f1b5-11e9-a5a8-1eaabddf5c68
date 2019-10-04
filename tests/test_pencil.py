@@ -55,12 +55,24 @@ class PointDegradationTests(unittest.TestCase):
 
     def test_should_degrade_pencil_by_sum_of_characters_cost_units(self):
         #   2 cost units *2 uppercase chars
-        # + 1 cost unit * 4 lowercase chars  
+        # + 1 cost unit * 4 lowercase chars
         # + 0 cost units * 1 space
         # =8 cost units
 
         to_write = 'Abc Def'
-        durability=8
-        pencil=Pencil(point_durability=8)
+        durability = 8
+        pencil = Pencil(point_durability=8)
         pencil.write(to_write, self.paper)
-        self.assertEqual(pencil.point_durability,durability-8)
+        self.assertEqual(pencil.point_durability, durability - 8)
+
+    def test_should_not_write_uppercase_character_if_only_one_durability_unit(self):
+        pencil = Pencil(point_durability=1)
+        pencil.write('A', self.paper)
+        self.assertEqual(self.paper.text, ' ')
+
+    #Make note of this in Readme!
+    def test_writing_a_number_should_use_two_units_of_durability(self):
+        durability = 2
+        pencil = Pencil(point_durability=2)
+        pencil.write('1', self.paper)
+        self.assertEqual(pencil.point_durability, durability - 2)
