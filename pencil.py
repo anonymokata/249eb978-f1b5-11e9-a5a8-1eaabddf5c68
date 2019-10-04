@@ -13,14 +13,19 @@ class Pencil:
 
     def write(self, text, paper):
         for char in text:
-            self._write_char(char, paper)
+            self.write_char(char, paper)
 
-    def _write_char(self, char, paper):
+    def calculate_write_cost(self, char):
+        if char.isupper():
+            return 2
+        elif char.islower():
+            return 1
+        else:
+            return 0
+
+    def write_char(self, char, paper):
         if self.point_durability==0:
             paper.text+=' '
         else:
-            if char.isupper():
-                self.point_durability-=2
-            elif char.islower():
-                self.point_durability-=1
+            self.point_durability-=self.calculate_write_cost(char)
             paper.text+=char
