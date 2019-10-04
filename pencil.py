@@ -1,6 +1,6 @@
 class Pencil:
 
-    def __init__(self, point_durability=None):
+    def __init__(self, point_durability=40000):
         self._point_durability = point_durability
 
     @property
@@ -15,4 +15,5 @@ class Pencil:
         if self.point_durability == 0:
             paper.text += ' ' * len(text)
         else:
+            self.point_durability-=1
             paper.text += text

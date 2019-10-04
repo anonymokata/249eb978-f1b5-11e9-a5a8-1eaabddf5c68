@@ -21,9 +21,9 @@ class PencilWritingTests(unittest.TestCase):
 
 
 class PointDegradationTests(unittest.TestCase):
+
     def setUp(self):
         self.paper = Paper()
-
     def test_can_create_pencil_with_point_durability(self):
         pencil = Pencil(point_durability=0)
         self.assertEqual(pencil.point_durability, 0)
@@ -33,3 +33,9 @@ class PointDegradationTests(unittest.TestCase):
         text_to_write = 'abc'
         pencil.write(text_to_write, self.paper)
         self.assertEqual(self.paper.text, ' ' * len(text_to_write))
+
+    def test_lowercase_letters_degrade_pencil_by_one_unit(self):
+        durability=1
+        pencil=Pencil(point_durability=durability)
+        pencil.write('a', self.paper)
+        self.assertEqual(pencil.point_durability, durability-1)
