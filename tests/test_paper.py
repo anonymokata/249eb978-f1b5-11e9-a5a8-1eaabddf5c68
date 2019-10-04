@@ -6,3 +6,8 @@ class PaperCreationTests(unittest.TestCase):
 		paper = Paper()
 		self.assertIsInstance(paper, Paper)
 		self.assertEqual(paper.text, '')
+	def test_paper_text_should_be_set_with_text_property(self):
+		paper=Paper()
+		paper.text='abc'
+		print(paper.text)
+		self.assertEqual(paper.text, 'abc')
