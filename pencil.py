@@ -24,8 +24,11 @@ class Pencil:
             return 0
 
     def write_char(self, char, paper):
-        if self.calculate_write_cost(char)>self.point_durability:
-            paper.text+=' '
+        if self.calculate_write_cost(char) > self.point_durability:
+            paper.text += ' '
         else:
-            self.point_durability-=self.calculate_write_cost(char)
-            paper.text+=char
+            self.point_durability -= self.calculate_write_cost(char)
+            paper.text += char
+
+    def sharpen(self):
+        self.point_durability=self._initial_durability

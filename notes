@@ -1,0 +1,5 @@
+Some thoughts after finishing the degradation logic:
+	1. I don't like the way I had to immediately begin integration testing. Maybe I'll have another run at this when I'm finished..I'd like to be able to do more isolated tests of the pencil object.
+
+	2. I'd like to resolve the default durability. Either the pencil should have unlimited durability unless designed otherwise, or I'll do some calculating to try and find a good default. http://towriteamockingbird.blogspot.com <- this will help
+
