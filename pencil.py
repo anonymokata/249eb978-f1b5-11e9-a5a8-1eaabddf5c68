@@ -1,2 +1,4 @@
 class Pencil:
-	pass
+    def write(self, text, paper):
+    	paper.text+=text
+    	
