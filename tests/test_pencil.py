@@ -70,9 +70,14 @@ class PointDegradationTests(unittest.TestCase):
         pencil.write('A', self.paper)
         self.assertEqual(self.paper.text, ' ')
 
-    #Make note of this in Readme!
+    # Make note of this in Readme!
     def test_writing_a_number_should_use_two_units_of_durability(self):
         durability = 2
         pencil = Pencil(point_durability=2)
         pencil.write('1', self.paper)
         self.assertEqual(pencil.point_durability, durability - 2)
+
+    def test_should_begin_writing_whitespace_midword_if_point_durability_is_zero(self):
+        pencil = Pencil(point_durability=4)
+        pencil.write('Text', self.paper)
+        self.assertEqual(self.paper.text, 'Tex ')
