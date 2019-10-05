@@ -41,6 +41,13 @@ class Pencil:
             paper.text += char
 
     def sharpen(self):
-        if self.length > 0:
-            self.point_durability = self._initial_durability
-            self.length -= 1
+        if self.length == 0:
+            return
+
+        self.point_durability = self._initial_durability
+        self.length -= 1
+
+    def erase(self, text, paper):
+        index = paper.text.rfind(text)
+        paper.text = paper.text[:index] + ' ' * \
+            len(text) + paper.text[len(text) + index:]

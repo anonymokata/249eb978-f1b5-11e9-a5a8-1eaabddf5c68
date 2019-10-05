@@ -114,10 +114,16 @@ class PencilSharpeningTests(unittest.TestCase):
 
 
 class PencilEraserTests(unittest.TestCase):
-    
-    def test_should_erase_last_occurence_of_text_when_instructed_to_erase(self):
-        paper = Paper()
-        pencil = Pencil()
-        paper.text = "Charles Mingus"
-        pencil.erase("Mingus", paper)
-        self.assertEqual(paper.text, ("Charles " + ' ' * len("Mingus")))
+    def setUp(self):
+        self.paper = Paper()
+        self.pencil = Pencil()
+
+    def test_should_erase_text_by_replacing_with_empty_spaces(self):
+        self.paper.text = "Charles Mingus"
+        self.pencil.erase("Mingus", self.paper)
+        self.assertEqual(self.paper.text, ("Charles " + ' ' * len("Mingus")))
+
+    def test_should_only_erase_last_occurence_of_text(self):
+        self.paper.text = 'Hello Hello Hello'
+        self.pencil.erase('Hello', self.paper)
+        self.assertEqual(paper.text, 'Hello Hello ' + ' ' * len('Hello'))
