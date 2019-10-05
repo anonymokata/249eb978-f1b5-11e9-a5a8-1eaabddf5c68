@@ -49,5 +49,9 @@ class Pencil:
 
     def erase(self, text, paper):
         index = paper.text.rfind(text)
+
+        if index<0:
+            return
+
         paper.text = paper.text[:index] + ' ' * \
             len(text) + paper.text[len(text) + index:]
