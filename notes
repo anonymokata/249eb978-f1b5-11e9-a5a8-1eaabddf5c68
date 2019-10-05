@@ -3,6 +3,9 @@ Some thoughts after finishing the degradation logic:
 
 	2. I'd like to resolve the default durability. Either the pencil should have unlimited durability unless designed otherwise, or I'll do some calculating to try and find a good default. http://towriteamockingbird.blogspot.com <- this will help
 
+------------------------------------------------------
 
 
-As I build each function, I'm starting by testing that I can instantiate a pencil with the property that will guide the functionality (length, durability, eraser durability). I'm going back and forth on whether or not those tests should be housed in a separate test class eg PencilCreationTests.
+As I build each function, I'm starting by testing that I can instantiate a pencil with the property that will guide the functionality (length, durability, eraser durability). Maybe those tests should be housed in a separate test class eg PencilCreationTests.
+
+------------------------------------------------------

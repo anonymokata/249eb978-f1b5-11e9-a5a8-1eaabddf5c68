@@ -1,7 +1,17 @@
 class Pencil:
 
-    def __init__(self, point_durability=40000):
+    def __init__(self, point_durability=40000, length=40):
         self._point_durability = point_durability
+        self._length = length
+        self._initial_durability = point_durability
+
+    @property
+    def length(self):
+        return self._length
+
+    @length.setter
+    def length(self, length):
+        self._length = length
 
     @property
     def point_durability(self):
@@ -31,4 +41,6 @@ class Pencil:
             paper.text += char
 
     def sharpen(self):
-        self.point_durability=self._initial_durability
+        if self.length>0:
+            self.point_durability=self._initial_durability
+            self.length-=1

@@ -2,6 +2,7 @@ import unittest
 from pencil import Pencil
 from paper import Paper
 
+
 class PencilWritingTests(unittest.TestCase):
     def setUp(self):
         self.pencil = Pencil()
@@ -18,7 +19,8 @@ class PencilWritingTests(unittest.TestCase):
         self.pencil.write(text_to_write, self.paper)
         self.assertEqual(self.paper.text, 'abcdef')
 
-class PointDegradationTests(unittest.TestCase):
+
+class PencilPointDegradationTests(unittest.TestCase):
 
     def setUp(self):
         self.paper = Paper()
@@ -79,3 +81,33 @@ class PointDegradationTests(unittest.TestCase):
         pencil = Pencil(point_durability=4)
         pencil.write('Text', self.paper)
         self.assertEqual(self.paper.text, 'Tex ')
+
+
+class PencilSharpeningTests(unittest.TestCase):
+
+    def test_pencil_should_have_length_field(self):
+        initial_length = 40
+        pencil = Pencil(length=initial_length)
+        self.assertEqual(pencil.length, initial_length)
+
+    def test_sharpening_pencil_should_reduce_its_length_by_one(self):
+        initial_length = 40
+        pencil = Pencil(length=initial_length)
+        pencil.sharpen()
+        self.assertEqual(pencil.length, initial_length - 1)
+
+    def test_sharpening_pencil_should_restore_its_original_point_durability(self):
+        initial_durability = 40000
+        pencil = Pencil(point_durability=initial_durability, length=40)
+        pencil.point_durability = 0
+        self.assertEqual(pencil.point_durability, 0)
+
+        pencil.sharpen()
+
+        self.assertEqual(pencil.point_durability, initial_durability)
+
+    def test_should_not_restore_point_durability_when_sharpened_with_length_zero(self):
+        pencil = Pencil(point_durability=40000, length=0)
+        pencil.point_durability = 1
+        pencil.sharpen()
+        self.assertEqual(pencil.point_durability, 1)
