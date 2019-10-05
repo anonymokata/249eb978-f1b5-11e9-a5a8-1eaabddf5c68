@@ -41,6 +41,6 @@ class Pencil:
             paper.text += char
 
     def sharpen(self):
-        if self.length>0:
-            self.point_durability=self._initial_durability
-            self.length-=1
+        if self.length > 0:
+            self.point_durability = self._initial_durability
+            self.length -= 1

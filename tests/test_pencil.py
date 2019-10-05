@@ -111,3 +111,13 @@ class PencilSharpeningTests(unittest.TestCase):
         pencil.point_durability = 1
         pencil.sharpen()
         self.assertEqual(pencil.point_durability, 1)
+
+
+class PencilEraserTests(unittest.TestCase):
+    
+    def test_should_erase_last_occurence_of_text_when_instructed_to_erase(self):
+        paper = Paper()
+        pencil = Pencil()
+        paper.text = "Charles Mingus"
+        pencil.erase("Mingus", paper)
+        self.assertEqual(paper.text, ("Charles " + ' ' * len("Mingus")))
