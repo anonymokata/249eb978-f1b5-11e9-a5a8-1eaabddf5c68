@@ -65,4 +65,8 @@ class Pencil:
         paper.text = paper.text[:index] + ' ' * \
             len(text) + paper.text[len(text) + index:]
 
-        self.eraser_durability -= len(text)
+        erase_cost = 0
+        for char in text:
+            if not char.isspace():
+                erase_cost+=1
+        self.eraser_durability -= erase_cost
