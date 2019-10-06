@@ -35,13 +35,13 @@ class Pencil:
             self.write_char(char, paper)
 
     def write_char(self, char, paper):
-        if self.calculate_write_cost(char) > self.point_durability:
+        if self.calculate_char_write_cost(char) > self.point_durability:
             paper.text += ' '
         else:
-            self.point_durability -= self.calculate_write_cost(char)
+            self.point_durability -= self.calculate_char_write_cost(char)
             paper.text += char
 
-    def calculate_write_cost(self, char):
+    def calculate_char_write_cost(self, char):
         if char.isupper() or char.isnumeric():
             return 2
         elif char.islower():
@@ -62,7 +62,7 @@ class Pencil:
         if index < 0:
             return
 
-        self.eraser_durability -= 1
-
         paper.text = paper.text[:index] + ' ' * \
             len(text) + paper.text[len(text) + index:]
+
+        self.eraser_durability -= len(text)

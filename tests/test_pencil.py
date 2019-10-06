@@ -1,6 +1,7 @@
 import unittest
 from pencil import Pencil
 from paper import Paper
+import string
 
 
 class PencilWritingTests(unittest.TestCase):
@@ -138,9 +139,10 @@ class PencilEraserTests(unittest.TestCase):
 
 
 class EraserDegradationTests(unittest.TestCase):
-    
+
     def setUp(self):
-        self.pencil = Pencil(eraser_durability=2000)
+        self.initial_eraser_durability = 2000
+        self.pencil = Pencil(eraser_durability=self.initial_eraser_durability)
         self.paper = Paper()
 
     def test_can_create_pencil_with_value_for_eraser_durability(self):
@@ -149,7 +151,19 @@ class EraserDegradationTests(unittest.TestCase):
         self.assertEqual(pencil.eraser_durability, durability)
 
     def test_erasing_one_character_should_degrade_eraser_by_one(self):
-        eraser_durability = self.pencil.eraser_durability
         self.paper.text = 'A'
         self.pencil.erase('A', self.paper)
-        self.assertEqual(self.pencil.eraser_durability, eraser_durability - 1)
+        self.assertEqual(self.pencil.eraser_durability,
+                         self.initial_eraser_durability - 1)
+
+    def test_erasing_two_characters_should_degrade_eraser_by_two(self):
+        self.paper.text = 'AA'
+        self.pencil.erase('AA', self.paper)
+        self.assertEqual(self.pencil.eraser_durability,
+                         self.initial_eraser_durability - 2)
+
+    def test_erasing_whitespace_should_not_degrade_eraser(self):
+        self.paper.text = string.whitespace
+        self.pencil.erase(string.whitespace, self.paper)
+        self.assertEqual(self.pencil.eraser_durability,
+                         self.initial_eraser_durability)
