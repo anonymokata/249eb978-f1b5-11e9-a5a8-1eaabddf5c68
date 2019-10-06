@@ -62,7 +62,7 @@ class Pencil:
 
         if index < 0:
             return
-
+        erase_length=min(self.eraser_durability, calculate_char_write_cost(text))
         paper.text = paper.text[:index] + Pencil.SPACE * \
             len(text) + paper.text[len(text) + index:]
 

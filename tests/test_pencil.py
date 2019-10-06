@@ -34,7 +34,7 @@ class PencilPointDegradationTests(unittest.TestCase):
         pencil = Pencil(point_durability=0)
         text_to_write = 'abc'
         pencil.write(text_to_write, self.paper)
-        self.assertEqual(self.paper.text, Paper.SPACE * len(text_to_write))
+        self.assertEqual(self.paper.text, Pencil.SPACE * len(text_to_write))
 
     def test_should_degrade_point_by_one_unit_when_writing_lowercase_char(self):
         durability = 1
@@ -51,7 +51,7 @@ class PencilPointDegradationTests(unittest.TestCase):
     def test_should_not_degrade_point_when_writing_whitespace(self):
         durability = 1
         pencil = Pencil(point_durability=durability)
-        pencil.write(Paper.SPACE, self.paper)
+        pencil.write(Pencil.SPACE, self.paper)
         self.assertEqual(pencil.point_durability, durability)
 
     def test_should_degrade_pencil_by_sum_of_characters_cost_units(self):
@@ -69,7 +69,7 @@ class PencilPointDegradationTests(unittest.TestCase):
     def test_should_not_write_uppercase_character_if_only_one_durability_unit(self):
         pencil = Pencil(point_durability=1)
         pencil.write('A', self.paper)
-        self.assertEqual(self.paper.text, Paper.SPACE)
+        self.assertEqual(self.paper.text, Pencil.SPACE)
 
     # Make note of this in Readme!
     def test_writing_a_number_should_use_two_units_of_durability(self):
@@ -81,7 +81,7 @@ class PencilPointDegradationTests(unittest.TestCase):
     def test_should_begin_writing_whitespace_midword_if_point_durability_is_zero(self):
         pencil = Pencil(point_durability=4)
         pencil.write('Text', self.paper)
-        self.assertEqual(self.paper.text, 'Tex'+Paper.SPACE)
+        self.assertEqual(self.paper.text, 'Tex'+Pencil.SPACE)
 
 
 class PencilSharpeningTests(unittest.TestCase):
@@ -122,14 +122,14 @@ class PencilEraserTests(unittest.TestCase):
     def test_should_erase_text_by_replacing_with_empty_spaces(self):
         self.paper.text = "Charles Mingus"
         self.pencil.erase("Charles", self.paper)
-        self.assertEqual(self.paper.text, (Paper.SPACE * len('Charles') + " Mingus"))
+        self.assertEqual(self.paper.text, (Pencil.SPACE * len('Charles') + " Mingus"))
 
     def test_should_only_erase_last_occurence_of_text(self):
         self.paper.text = 'Hello Hello Hello'
         self.pencil.erase('Hello', self.paper)
         self.pencil.erase('Hello', self.paper)
-        self.assertEqual(self.paper.text, 'Hello ' + Paper.SPACE *
-                         len('Hello') + Paper.SPACE + Paper.SPACE * len('Hello'))
+        self.assertEqual(self.paper.text, 'Hello ' + Pencil.SPACE *
+                         len('Hello') + Pencil.SPACE + Pencil.SPACE * len('Hello'))
 
     def test_should_not_do_anything_if_paper_does_not_contain_text_to_erase(self):
         text = 'Mellow Yellow Fellow'
@@ -172,4 +172,4 @@ class EraserDegradationTests(unittest.TestCase):
         self.paper.text='Buffalo Bill'
         self.pencil.eraser_durability=3
         self.pencil.erase('Bill', self.paper)
-        self.assertEqual(self.paper.text, 'Buffalo B'+3*Paper.SPACE)
+        self.assertEqual(self.paper.text, 'Buffalo B'+3*Pencil.SPACE)
