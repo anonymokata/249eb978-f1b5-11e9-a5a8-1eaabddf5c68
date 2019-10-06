@@ -1,5 +1,6 @@
+from paper import Paper
 class Pencil:
-
+    SPACE=' '
     def __init__(self, point_durability=40000, length=40, eraser_durability=4000):
         self._point_durability = point_durability
         self._length = length
@@ -36,7 +37,7 @@ class Pencil:
 
     def write_char(self, char, paper):
         if self.calculate_char_write_cost(char) > self.point_durability:
-            paper.text += ' '
+            paper.text += Pencil.SPACE
         else:
             self.point_durability -= self.calculate_char_write_cost(char)
             paper.text += char
@@ -62,11 +63,14 @@ class Pencil:
         if index < 0:
             return
 
-        paper.text = paper.text[:index] + ' ' * \
+        paper.text = paper.text[:index] + Pencil.SPACE * \
             len(text) + paper.text[len(text) + index:]
 
+        self.eraser_durability -= self.calculate_erase_cost(text)
+
+    def calculate_erase_cost(self, text):
         erase_cost = 0
         for char in text:
             if not char.isspace():
-                erase_cost+=1
-        self.eraser_durability -= erase_cost
+                erase_cost += 1
+        return erase_cost
