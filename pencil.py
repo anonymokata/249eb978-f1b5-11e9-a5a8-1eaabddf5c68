@@ -10,6 +10,10 @@ class Pencil:
     def eraser_durability(self):
         return self._eraser_durability
 
+    @eraser_durability.setter
+    def eraser_durability(self, durability):
+        self._eraser_durability = durability
+
     @property
     def length(self):
         return self._length
@@ -57,6 +61,8 @@ class Pencil:
 
         if index < 0:
             return
+
+        self.eraser_durability -= 1
 
         paper.text = paper.text[:index] + ' ' * \
             len(text) + paper.text[len(text) + index:]
