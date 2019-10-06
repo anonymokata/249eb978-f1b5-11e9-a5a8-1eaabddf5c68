@@ -121,16 +121,24 @@ class PencilEraserTests(unittest.TestCase):
     def test_should_erase_text_by_replacing_with_empty_spaces(self):
         self.paper.text = "Charles Mingus"
         self.pencil.erase("Charles", self.paper)
-        self.assertEqual(self.paper.text, ("        Mingus"))
+        self.assertEqual(self.paper.text, (" " * len('Charles') + " Mingus"))
 
     def test_should_only_erase_last_occurence_of_text(self):
         self.paper.text = 'Hello Hello Hello'
         self.pencil.erase('Hello', self.paper)
         self.pencil.erase('Hello', self.paper)
-        self.assertEqual(self.paper.text, 'Hello            ')
-    
+        self.assertEqual(self.paper.text, 'Hello ' + ' ' *
+                         len('Hello') + ' ' + ' ' * len('Hello'))
+
     def test_should_not_do_anything_if_paper_does_not_contain_text_to_erase(self):
-        text='Mellow Yellow Fellow'
-        self.paper.text=text
+        text = 'Mellow Yellow Fellow'
+        self.paper.text = text
         self.pencil.erase('Buckingham', self.paper)
         self.assertEqual(self.paper.text, text)
+
+
+class EraserDegradationTests(unittest.TestCase):
+    def test_can_create_pencil_with_value_for_eraser_durability(self):
+        durability=2000
+        pencil = Pencil(eraser_durability=durability)
+        self.assertEqual(pencil.eraser_durability, durability)

@@ -9,3 +9,11 @@ Some thoughts after finishing the degradation logic:
 As I build each function, I'm starting by testing that I can instantiate a pencil with the property that will guide the functionality (length, durability, eraser durability). Maybe those tests should be housed in a separate test class eg PencilCreationTests.
 
 ------------------------------------------------------
+
+There are several spots in the code where methods take the form of
+
+	if thing_is_false:
+		return
+	the rest of the method
+
+I am happy with the form of the method, but I wonder if raising an exception would be better than returning nothing (Python returns None here). I'm hesitant to start designing with exceptions when I don't have any kind of interface/CLI code...we'll see how it shakes out.
