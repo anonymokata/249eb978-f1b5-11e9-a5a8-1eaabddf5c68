@@ -66,13 +66,12 @@ class Pencil:
         if index < 0:
             return 
 
-        for i in range(len(text)):
+        for i in range(len(text)-1,-1,-1):
             self.erase_char(paper, index + i)
 
     def erase_char(self, paper, index):
         if self.eraser_durability == 0:
-            return
-            
+            return 
         self.eraser_durability -= self.calculate_erase_cost(paper.text[index])
         paper.text = paper.text[:index] + Pencil.SPACE + paper.text[index + 1:]
 
