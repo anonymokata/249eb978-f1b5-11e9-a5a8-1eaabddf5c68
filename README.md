@@ -13,14 +13,14 @@ If the simulation required multiple types of writing instruments, it would be a 
 - fountain pens (can be refilled when out of ink, non-erasable)
 - erasable pens (leaves a terrible mess when erased)
 
-I contemplated also creating a factory for erasers but decided it was outside the scope of the kata. This factory would allow for things like erasers meant to slip over the top of a worn out eraser.
+I contemplated also creating a factory for erasers but decided it was outside the scope of the kata. This factory would allow for things like eraser caps erasers meant to slip over the top of a worn out pencil eraser.
 ### Note On 2HB Durability
 [This voluenteer effort](http://towriteamockingbird.blogspot.com) was my favorite discovery when researching pencil point durability. A combination of [this post,](http://towriteamockingbird.blogspot.com/2007/05/report-after-32-hours-into-effort.html) [this post,](http://towriteamockingbird.blogspot.com/2007/06/our-final-word-count-is.html) and some analysis of the first chapter of the text selected by the linked project provide the following information:
 - The 6.65" pencil was reduced to 3.2" after 32 sharpenings, thus the pencil degrades approximately .011" per sharpening.
 - The pencil had written 32,000 words after 32 sharpenings, thus the pencil writes approximately 1,000 words per sharpening.
 - The average word length of the first chapter of the text is 4.7 characters and 3.4% of those characters are capital letters or digits, thus the pencil writes approximately 160 capital and 4540 lowercase letters per sharpening - or 4860 units of durability by the degradation rules in the kata.
 
-I chose a value of 44 for the pencil length - this brings a real life pencil to a barely usable 2". I'm using the point durability achieved by the voluenteers (4860). In determining a value for eraser durability, I made the idealistic assumption that a pencil would be able to erase every character it has written.
+I chose a value of 44 for the pencil length - this brings a real life pencil to a barely usable 2". I'm using the point durability achieved by the linked project (4860). In determining a value for eraser durability, I made the idealistic assumption that a pencil would be able to erase every character it has written.
 
 ### Some Thoughts
 The spec says in various places:
