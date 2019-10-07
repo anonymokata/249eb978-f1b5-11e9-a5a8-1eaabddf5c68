@@ -5,7 +5,7 @@ class Pencil:
     SPACE = ' '
     COLLISION = '@'
 
-    def __init__(self, point_durability=40000, length=40, eraser=None):
+    def __init__(self, point_durability, length, eraser):
         self.point_durability = point_durability
         self.length = length
         self.initial_durability = point_durability
