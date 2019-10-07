@@ -1,6 +1,9 @@
 from paper import Paper
+
+
 class Pencil:
-    SPACE=' '
+    SPACE = ' '
+
     def __init__(self, point_durability=40000, length=40, eraser_durability=4000):
         self._point_durability = point_durability
         self._length = length
@@ -61,16 +64,20 @@ class Pencil:
         index = paper.text.rfind(text)
 
         if index < 0:
+            return 
+
+        for i in range(len(text)):
+            self.erase_char(paper, index + i)
+
+    def erase_char(self, paper, index):
+        if self.eraser_durability == 0:
             return
-        erase_length=min(self.eraser_durability, calculate_char_write_cost(text))
-        paper.text = paper.text[:index] + Pencil.SPACE * \
-            len(text) + paper.text[len(text) + index:]
+            
+        self.eraser_durability -= self.calculate_erase_cost(paper.text[index])
+        paper.text = paper.text[:index] + Pencil.SPACE + paper.text[index + 1:]
 
-        self.eraser_durability -= self.calculate_erase_cost(text)
-
-    def calculate_erase_cost(self, text):
-        erase_cost = 0
-        for char in text:
-            if not char.isspace():
-                erase_cost += 1
-        return erase_cost
+    def calculate_erase_cost(self, char):
+        if char.isspace():
+            return 0
+        else:
+            return 1
