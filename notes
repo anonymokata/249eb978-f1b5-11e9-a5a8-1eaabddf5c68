@@ -17,3 +17,6 @@ There are several spots in the code where methods take the form of
 	the rest of the method
 
 I am happy with the form of the method, but I wonder if raising an exception would be better than returning nothing (Python returns None here). I'm hesitant to start designing with exceptions when I don't have any kind of interface/CLI code...we'll see how it shakes out.
+
+------------------------------------------------------
+I'm going to factor out the eraser to its own class because the pencil class currently has a lot of responsibility. Removing the eraser logic (then adding it back in via composition) seems like a good place to start reducing that responsibility.

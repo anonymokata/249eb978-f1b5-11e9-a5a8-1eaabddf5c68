@@ -142,27 +142,6 @@ class PencilEraserTests(unittest.TestCase):
         self.pencil.erase('Lindsey Buckingham', self.paper)
         self.assertEqual(self.paper.text, text)
 
-    def test_erase_char_should_erase_single_char_at_index(self):
-        self.paper.text = 'ABC'
-        self.pencil._erase_char(
-            paper=self.paper, index=self.paper.text.find('B'))
-        self.assertEqual(self.paper.text, 'A C')
-
-    def test_erase_char_should_degrade_by_one_if_char_is_alphanum(self):
-        initial_eraser_durability = self.pencil.eraser_durability
-        self.paper.text = 'ABC'
-        self.pencil._erase_char(
-            paper=self.paper, index=self.paper.text.find('B'))
-        self.assertEqual(self.pencil.eraser_durability,
-                         initial_eraser_durability - 1)
-
-    def test_erase_char_should_degrade_by_zero_if_char_is_space(self):
-        initial_eraser_durability = self.pencil.eraser_durability
-        self.paper.text = ' '
-        self.pencil.erase(' ', self.paper)
-        self.assertEqual(self.pencil.eraser_durability,
-                         initial_eraser_durability)
-
 
 class EraserDegradationTests(unittest.TestCase):
 
