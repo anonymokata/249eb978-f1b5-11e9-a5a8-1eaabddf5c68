@@ -74,7 +74,6 @@ class PencilPointDegradationTests(unittest.TestCase):
         self.pencil.write('A', self.paper)
         self.assertEqual(self.paper.text, Pencil.SPACE)
 
-    # Make note of this in Readme!
     def test_writing_a_number_should_use_two_units_of_durability(self):
         durability = 2
         self.pencil.point_durability=2
