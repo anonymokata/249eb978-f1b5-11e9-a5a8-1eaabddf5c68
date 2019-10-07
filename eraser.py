@@ -2,8 +2,20 @@ from pencil import Pencil
 
 
 class Eraser:
+    ERASE_CHAR=' '
+    
     def __init__(self, durability):
         self.durability = durability
+
+    def erase(self,text,paper):
+        index = paper.text.rfind(text)
+
+        if index < 0:
+            return
+
+        # Step backward from the end of text to be erased
+        for i in range(len(text) - 1, -1, -1):
+            self.erase_char(paper, index + i)
 
     def erase_char(self, paper, index):
         if self.durability == 0 or index>=len(paper.text):

@@ -5,18 +5,18 @@ class Pencil:
     SPACE = ' '
     COLLISION = '@'
 
-    def __init__(self, point_durability=40000, length=40, eraser_durability=4000):
+    def __init__(self, point_durability=40000, length=40, eraser=None):
         self.point_durability = point_durability
         self.length = length
         self.initial_durability = point_durability
-        self.eraser_durability = eraser_durability
+        self.eraser = eraser
 
     def write(self, text, paper):
         for char in text:
             self._write_char(char, len(paper.text), paper)
 
     def _write_char(self, char, index, paper):
-        
+
         if self.point_durability < self._calculate_write_cost(char):
             char = Pencil.SPACE
         elif self._is_collision(index, paper):
@@ -44,28 +44,8 @@ class Pencil:
         self.length -= 1
 
     def erase(self, text, paper):
-        index = paper.text.rfind(text)
-
-        if index < 0:
-            return
-
-        # Step backward from the end of text to be erased
-        for i in range(len(text) - 1, -1, -1):
-            self._erase_char(paper, index + i)
-
-    def _erase_char(self, paper, index):
-        if self.eraser_durability == 0:
-            return
-        self.eraser_durability -= self._calculate_erase_cost(paper.text[index])
-        paper.text = paper.text[:index] + Pencil.SPACE + paper.text[index + 1:]
-        paper.last_erased = index
-
-    def _calculate_erase_cost(self, char):
-        if char.isspace():
-            return 0
-        else:
-            return 1
-
+        self.eraser.erase(text, paper)
+        
     def edit(self, text, paper):
         index = paper.last_erased
 
