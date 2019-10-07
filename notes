@@ -20,3 +20,5 @@ I am happy with the form of the method, but I wonder if raising an exception wou
 
 ------------------------------------------------------
 I'm going to factor out the eraser to its own class because the pencil class currently has a lot of responsibility. Removing the eraser logic (then adding it back in via composition) seems like a good place to start reducing that responsibility.
+------------------------------------------------------
+The pencil test class has a lot of sloppy constants. I'm going to decide what a 2hb should have for durability and length and create a class to instantiate the pencil. 
