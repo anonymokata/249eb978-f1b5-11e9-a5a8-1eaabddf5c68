@@ -128,15 +128,14 @@ class PencilEraserTests(unittest.TestCase):
 
     def test_should_only_erase_last_occurence_of_text(self):
         self.paper.text = "How much wood would a woodchuck chuck if a woodchuck could chuck wood?"
-        
-        self.pencil.erase('chuck', self.paper)
-        self.assertEqual(self.paper.text, "How much wood would a woodchuck chuck if a woodchuck could       wood?")
 
         self.pencil.erase('chuck', self.paper)
-        self.assertEqual(self.paper.text, "How much wood would a woodchuck chuck if a wood      could       wood?")
+        self.assertEqual(
+            self.paper.text, "How much wood would a woodchuck chuck if a woodchuck could       wood?")
 
-
-
+        self.pencil.erase('chuck', self.paper)
+        self.assertEqual(
+            self.paper.text, "How much wood would a woodchuck chuck if a wood      could       wood?")
 
     def test_should_not_do_anything_if_paper_does_not_contain_text_to_erase(self):
         text = 'Mellow Yellow Fellow'
@@ -168,7 +167,8 @@ class EraserDegradationTests(unittest.TestCase):
 
     def test_can_create_pencil_with_value_for_eraser_durability(self):
         pencil = Pencil(eraser_durability=self.initial_eraser_durability)
-        self.assertEqual(pencil.eraser_durability, self.initial_eraser_durability)
+        self.assertEqual(pencil.eraser_durability,
+                         self.initial_eraser_durability)
 
     def test_erasing_one_character_should_degrade_eraser_by_one(self):
         self.paper.text = 'A'
