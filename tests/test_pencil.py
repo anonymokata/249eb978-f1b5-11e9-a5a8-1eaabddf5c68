@@ -167,9 +167,8 @@ class EraserDegradationTests(unittest.TestCase):
         self.paper = Paper()
 
     def test_can_create_pencil_with_value_for_eraser_durability(self):
-        durability = 2000
-        pencil = Pencil(eraser_durability=durability)
-        self.assertEqual(pencil.eraser_durability, durability)
+        pencil = Pencil(eraser_durability=self.initial_eraser_durability)
+        self.assertEqual(pencil.eraser_durability, self.initial_eraser_durability)
 
     def test_erasing_one_character_should_degrade_eraser_by_one(self):
         self.paper.text = 'A'
@@ -195,3 +194,8 @@ class EraserDegradationTests(unittest.TestCase):
         self.pencil.eraser_durability = 3
         self.pencil.erase('Bill', self.paper)
         self.assertEqual(self.paper.text, 'Buffalo B' + 3 * Pencil.SPACE)
+
+class PencilEditingTests(unittest.TestCase):
+    def test_paper_should_initialize_with_last_erased_point(self):
+        paper=Paper()
+        self.assertEqual(paper.last_erased, -1)
