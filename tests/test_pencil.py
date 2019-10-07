@@ -12,7 +12,7 @@ class PencilWritingTests(unittest.TestCase):
         self.pencil = PencilFactory.get_no2_hb()
         self.paper = Paper()
 
-    def test_should_write_text_to_paper(self):
+    def test_pencil_should_write_text_to_paper(self):
         text_to_write = 'abc'
         self.pencil.write(text_to_write, self.paper)
         self.assertEqual(self.paper.text, text_to_write)
@@ -23,39 +23,38 @@ class PencilWritingTests(unittest.TestCase):
         self.pencil.write(text_to_write, self.paper)
         self.assertEqual(self.paper.text, 'abcdef')
 
+
 class PencilPointDegradationTests(unittest.TestCase):
 
     def setUp(self):
         self.paper = Paper()
-        self.pencil=PencilFactory.get_no2_hb()
+        self.pencil = PencilFactory.get_no2_hb()
+        self.initial_point_durability = self.pencil.point_durability
 
-    def test_can_create_pencil_with_point_durability(self):
-        self.pencil.point_durability=0
-        self.assertEqual(self.pencil.point_durability, 0)
+    def test_should_allow_creation_with_point_durability_field(self):
+        self.assertEqual(self.pencil.point_durability,
+                         PencilFactory.NO2_HB_POINT_DURABILITY)
 
     def test_should_write_whitespace_if_point_durability_is_zero(self):
-        self.pencil.point_durability=0
+        self.pencil.point_durability = 0
         text_to_write = 'abc'
         self.pencil.write(text_to_write, self.paper)
         self.assertEqual(self.paper.text, Pencil.SPACE * len(text_to_write))
 
     def test_should_degrade_point_by_one_unit_when_writing_lowercase_char(self):
-        durability = 1
-        self.pencil.point_durability=durability
         self.pencil.write('a', self.paper)
-        self.assertEqual(self.pencil.point_durability, durability - 1)
+        self.assertEqual(self.pencil.point_durability,
+                         self.initial_point_durability - 1)
 
     def test_should_degrade_point_by_two_units_when_writing_uppercase_char(self):
-        durability = 2
-        self.pencil.point_durability=durability
         self.pencil.write('A', self.paper)
-        self.assertEqual(self.pencil.point_durability, durability - 2)
+        self.assertEqual(self.pencil.point_durability,
+                         self.initial_point_durability - 2)
 
     def test_should_not_degrade_point_when_writing_whitespace(self):
-        durability = 1
-        self.pencil.point_durability=durability
         self.pencil.write(Pencil.SPACE, self.paper)
-        self.assertEqual(self.pencil.point_durability, durability)
+        self.assertEqual(self.pencil.point_durability,
+                         self.initial_point_durability)
 
     def test_should_degrade_pencil_by_sum_of_characters_cost_units(self):
         #   2 cost units *2 uppercase chars
@@ -64,38 +63,36 @@ class PencilPointDegradationTests(unittest.TestCase):
         # =8 cost units
 
         to_write = 'Abc Def'
-        durability = 8
-        self.pencil.point_durability=durability
         self.pencil.write(to_write, self.paper)
-        self.assertEqual(self.pencil.point_durability, durability - 8)
+        self.assertEqual(self.pencil.point_durability,
+                         self.initial_point_durability - 8)
 
     def test_should_not_write_uppercase_character_if_only_one_durability_unit(self):
-        self.pencil.point_durability=1
+        self.pencil.point_durability = 1
         self.pencil.write('A', self.paper)
         self.assertEqual(self.paper.text, Pencil.SPACE)
 
     def test_writing_a_number_should_use_two_units_of_durability(self):
-        durability = 2
-        self.pencil.point_durability=2
         self.pencil.write('1', self.paper)
-        self.assertEqual(self.pencil.point_durability, durability - 2)
+        self.assertEqual(self.pencil.point_durability,
+                         self.initial_point_durability - 2)
 
     def test_should_begin_writing_whitespace_midword_if_point_durability_is_zero(self):
-        self.pencil.point_durability=4
+        self.pencil.point_durability = 4
         self.pencil.write('Text', self.paper)
         self.assertEqual(self.paper.text, 'Tex' + Pencil.SPACE)
 
+
 class PencilSharpeningTests(unittest.TestCase):
     def setUp(self):
-        self.pencil=PencilFactory.get_no2_hb()
-
-    def test_should_allow_creation_with_length_field(self):
+        self.pencil = PencilFactory.get_no2_hb()
+        self.initial_length=self.pencil.length
+    def test_should_allow_creation_with_length(self):
         self.assertEqual(self.pencil.length, PencilFactory.NO2_HB_LENGTH)
 
     def test_sharpening_pencil_should_reduce_its_length_by_one(self):
-        initial_length = self.pencil.length
         self.pencil.sharpen()
-        self.assertEqual(self.pencil.length, initial_length - 1)
+        self.assertEqual(self.pencil.length, self.initial_length - 1)
 
     def test_sharpening_pencil_should_restore_its_original_point_durability(self):
         initial_durability = self.pencil.point_durability
@@ -107,16 +104,17 @@ class PencilSharpeningTests(unittest.TestCase):
         self.assertEqual(self.pencil.point_durability, initial_durability)
 
     def test_should_not_restore_point_durability_when_sharpened_at_length_zero(self):
-        self.pencil.length=0
+        self.pencil.length = 0
         self.pencil.point_durability = 1
         self.pencil.sharpen()
         self.assertEqual(self.pencil.point_durability, 1)
 
+
 class PencilEditingTests(unittest.TestCase):
-    
+
     def setUp(self):
         self.paper = Paper()
-        self.pencil=PencilFactory.get_no2_hb()
+        self.pencil = PencilFactory.get_no2_hb()
 
     def test_if_paper_has_not_had_text_erased_should_append_text_to_paper(self):
         self.paper.text = 'Hello '
