@@ -2,7 +2,6 @@ import unittest
 from pencil import Pencil
 from paper import Paper
 import string
-from unittest import skip
 
 
 class PencilWritingTests(unittest.TestCase):
@@ -87,7 +86,7 @@ class PencilPointDegradationTests(unittest.TestCase):
 
 class PencilSharpeningTests(unittest.TestCase):
 
-    def test_pencil_should_have_length_field(self):
+    def test_should_allow_creation_with_length_field(self):
         initial_length = 40
         pencil = Pencil(length=initial_length)
         self.assertEqual(pencil.length, initial_length)
@@ -108,7 +107,7 @@ class PencilSharpeningTests(unittest.TestCase):
 
         self.assertEqual(pencil.point_durability, initial_durability)
 
-    def test_should_not_restore_point_durability_when_sharpened_with_length_zero(self):
+    def test_should_not_restore_point_durability_when_sharpened_at_length_zero(self):
         pencil = Pencil(point_durability=40000, length=0)
         pencil.point_durability = 1
         pencil.sharpen()
@@ -138,24 +137,31 @@ class PencilEraserTests(unittest.TestCase):
             self.paper.text, "How much wood would a woodchuck chuck if a wood      could       wood?")
 
     def test_should_not_do_anything_if_paper_does_not_contain_text_to_erase(self):
-        text = 'Mellow Yellow Fellow'
+        text = 'Stevie Nicks'
         self.paper.text = text
-        self.pencil.erase('Buckingham', self.paper)
+        self.pencil.erase('Lindsey Buckingham', self.paper)
         self.assertEqual(self.paper.text, text)
 
-    def test_should_erase_char_should_erase_single_char_at_index(self):
+    def test_erase_char_should_erase_single_char_at_index(self):
         self.paper.text = 'ABC'
         self.pencil._erase_char(
             paper=self.paper, index=self.paper.text.find('B'))
         self.assertEqual(self.paper.text, 'A C')
 
-    def test_erase_char_should_degrade_by_one_if_char_is_alphanum_else_zero(self):
+    def test_erase_char_should_degrade_by_one_if_char_is_alphanum(self):
         initial_eraser_durability = self.pencil.eraser_durability
         self.paper.text = 'ABC'
         self.pencil._erase_char(
             paper=self.paper, index=self.paper.text.find('B'))
         self.assertEqual(self.pencil.eraser_durability,
                          initial_eraser_durability - 1)
+
+    def test_erase_char_should_degrade_by_zero_if_char_is_space(self):
+        initial_eraser_durability = self.pencil.eraser_durability
+        self.paper.text = ' '
+        self.pencil.erase(' ', self.paper)
+        self.assertEqual(self.pencil.eraser_durability,
+                         initial_eraser_durability)
 
 
 class EraserDegradationTests(unittest.TestCase):
