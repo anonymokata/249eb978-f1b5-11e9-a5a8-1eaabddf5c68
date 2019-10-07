@@ -196,23 +196,43 @@ class EraserDegradationTests(unittest.TestCase):
 
 
 class PencilEditingTests(unittest.TestCase):
+    def setUp(self):
+        self.pencil = Pencil()
+        self.paper = Paper()
+
     def test_paper_should_initialize_last_erased_field(self):
         paper = Paper()
         self.assertEqual(paper.last_erased, -1)
 
     def test_pencil_should_set_last_erased_field_when_erasing(self):
-        paper = Paper()
-        pencil = Pencil()
         text = 'ABC'
-        paper.text = text
-        pencil.erase('B', paper)
-        self.assertEqual(paper.last_erased, 1)
+        self.paper.text = text
+        self.pencil.erase('B', self.paper)
+        self.assertEqual(self.paper.last_erased, 1)
 
     def test_pencil_should_set_last_erased_to_last_character_erased_if_eraser_wears_out(self):
-        paper = Paper()
-        pencil = Pencil()
-        pencil.eraser_durability = 2
+        self.pencil.eraser_durability = 2
         text = 'ABC'
-        paper.text = text
-        pencil.erase('ABC', paper)
-        self.assertEqual(paper.last_erased, 1)
+        self.paper.text = text
+        self.pencil.erase('ABC', self.paper)
+        self.assertEqual(self.paper.last_erased, 1)
+
+    def test_if_paper_has_not_had_text_erased_should_append_text_to_paper(self):
+        self.paper.text = 'Hello '
+        self.assertEqual(self.paper.last_erased, -1)
+        self.pencil.edit('Fellow', self.paper)
+        self.assertEqual(self.paper.text, 'Hello Fellow')
+
+    def test_pencil_should_edit_text_into_whitespace_caused_by_last_erase(self):
+        self.paper.text = 'An apple a day keeps the doctor away'
+        self.pencil.erase('apple', self.paper)
+        self.pencil.edit('onion', self.paper)
+        self.assertEqual(
+            self.paper.text, 'An onion a day keeps the doctor away')
+
+    def test_should_reflect_collision_when_edited_in_text_is_longer_than_erased_whitespace(self):
+        self.paper.text = 'An apple a day keeps the doctor away'
+        self.pencil.erase('apple', self.paper)
+        self.pencil.edit('artichoke', self.paper)
+        self.assertEqual(
+            self.paper.text, f"An artich{Pencil.COLLISION}k{Pencil.COLLISION}ay keeps the doctor away")

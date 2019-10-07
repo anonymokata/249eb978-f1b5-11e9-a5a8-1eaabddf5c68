@@ -3,6 +3,7 @@ from paper import Paper
 
 class Pencil:
     SPACE = ' '
+    COLLISION = '@'
 
     def __init__(self, point_durability=40000, length=40, eraser_durability=4000):
         self.point_durability = point_durability
@@ -44,18 +45,28 @@ class Pencil:
 
         # Step backward from the end of text to be erased
         for i in range(len(text) - 1, -1, -1):
-            self.erase_char(paper, index + i)
+            self._erase_char(paper, index + i)
 
-
-    def erase_char(self, paper, index):
+    def _erase_char(self, paper, index):
         if self.eraser_durability == 0:
             return
-        self.eraser_durability -= self.calculate_erase_cost(paper.text[index])
+        self.eraser_durability -= self._calculate_erase_cost(paper.text[index])
         paper.text = paper.text[:index] + Pencil.SPACE + paper.text[index + 1:]
         paper.last_erased = index
 
-    def calculate_erase_cost(self, char):
+    def _calculate_erase_cost(self, char):
         if char.isspace():
             return 0
         else:
             return 1
+
+    def edit(self, text, paper):
+        index = paper.last_erased
+
+        if index == -1:
+            self.write(text, paper)
+            return
+
+        for char in text:
+            self._write_char(char, index, paper)
+            index += 1
