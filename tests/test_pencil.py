@@ -145,14 +145,14 @@ class PencilEraserTests(unittest.TestCase):
 
     def test_should_erase_char_should_erase_single_char_at_index(self):
         self.paper.text = 'ABC'
-        self.pencil.erase_char(
+        self.pencil._erase_char(
             paper=self.paper, index=self.paper.text.find('B'))
         self.assertEqual(self.paper.text, 'A C')
 
     def test_erase_char_should_degrade_by_one_if_char_is_alphanum_else_zero(self):
         initial_eraser_durability = self.pencil.eraser_durability
         self.paper.text = 'ABC'
-        self.pencil.erase_char(
+        self.pencil._erase_char(
             paper=self.paper, index=self.paper.text.find('B'))
         self.assertEqual(self.pencil.eraser_durability,
                          initial_eraser_durability - 1)

@@ -13,16 +13,22 @@ class Pencil:
 
     def write(self, text, paper):
         for char in text:
-            self.write_char(char, paper)
+            self._write_char(char, len(paper.text), paper)
 
-    def write_char(self, char, paper):
-        if self.calculate_write_cost(char) > self.point_durability:
-            paper.text += Pencil.SPACE
-        else:
-            self.point_durability -= self.calculate_write_cost(char)
-            paper.text += char
+    def _write_char(self, char, index, paper):
+        
+        if self.point_durability < self._calculate_write_cost(char):
+            char = Pencil.SPACE
+        elif self._is_collision(index, paper):
+            char = Pencil.COLLISION
 
-    def calculate_write_cost(self, char):
+        self.point_durability -= self._calculate_write_cost(char)
+        paper.text = paper.text[:index] + char + paper.text[index + 1:]
+
+    def _is_collision(self, index, paper):
+        return not index > len(paper.text) - 1 and not paper.text[index].isspace()
+
+    def _calculate_write_cost(self, char):
         if char.isupper() or char.isnumeric():
             return 2
         elif char.islower():
