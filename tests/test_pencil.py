@@ -188,14 +188,31 @@ class EraserDegradationTests(unittest.TestCase):
         self.assertEqual(self.pencil.eraser_durability,
                          self.initial_eraser_durability)
 
-    
     def test_should_erase_text_right_to_left(self):
         self.paper.text = 'Buffalo Bill'
         self.pencil.eraser_durability = 3
         self.pencil.erase('Bill', self.paper)
         self.assertEqual(self.paper.text, 'Buffalo B' + 3 * Pencil.SPACE)
 
+
 class PencilEditingTests(unittest.TestCase):
-    def test_paper_should_initialize_with_last_erased_point(self):
-        paper=Paper()
+    def test_paper_should_initialize_last_erased_field(self):
+        paper = Paper()
         self.assertEqual(paper.last_erased, -1)
+
+    def test_pencil_should_set_last_erased_field_when_erasing(self):
+        paper = Paper()
+        pencil = Pencil()
+        text = 'ABC'
+        paper.text = text
+        pencil.erase('B', paper)
+        self.assertEqual(paper.last_erased, 1)
+
+    def test_pencil_should_set_last_erased_to_last_character_erased_if_eraser_wears_out(self):
+        paper = Paper()
+        pencil = Pencil()
+        pencil.eraser_durability = 2
+        text = 'ABC'
+        paper.text = text
+        pencil.erase('ABC', paper)
+        self.assertEqual(paper.last_erased, 1)
