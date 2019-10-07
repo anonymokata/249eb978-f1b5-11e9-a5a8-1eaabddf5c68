@@ -11,7 +11,6 @@ class PaperCreationTests(unittest.TestCase):
     def test_paper_text_should_be_set_with_text_property(self):
         paper = Paper()
         paper.text = 'abc'
-        print(paper.text)
         self.assertEqual(paper.text, 'abc')
 
     def test_can_initialize_paper_with_text(self):
