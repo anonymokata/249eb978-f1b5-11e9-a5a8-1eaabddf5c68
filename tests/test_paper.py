@@ -13,3 +13,7 @@ class PaperCreationTests(unittest.TestCase):
         paper.text = 'abc'
         print(paper.text)
         self.assertEqual(paper.text, 'abc')
+
+    def test_can_initialize_paper_with_text(self):
+        paper = Paper(initial_text='Hello Fellow')
+        self.assertEqual(paper.text, 'Hello Fellow')
