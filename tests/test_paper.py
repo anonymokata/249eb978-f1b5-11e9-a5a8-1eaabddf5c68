@@ -17,3 +17,7 @@ class PaperCreationTests(unittest.TestCase):
     def test_can_initialize_paper_with_text(self):
         paper = Paper(initial_text='Hello Fellow')
         self.assertEqual(paper.text, 'Hello Fellow')
+
+    def test_paper_should_initialize_last_erased_field(self):
+        paper = Paper()
+        self.assertEqual(paper.last_erased, -1)
