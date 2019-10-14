@@ -39,7 +39,7 @@ class PencilPointDegradationTests(unittest.TestCase):
         self.pencil.point_durability = 0
         text_to_write = 'abc'
         self.pencil.write(text_to_write, self.paper)
-        self.assertEqual(self.paper.text, Pencil.SPACE * len(text_to_write))
+        self.assertEqual(self.paper.text, Pencil.SPACE_CHAR * len(text_to_write))
 
     def test_should_degrade_point_by_one_unit_when_writing_lowercase_char(self):
         self.pencil.write('a', self.paper)
@@ -52,7 +52,7 @@ class PencilPointDegradationTests(unittest.TestCase):
                          self.initial_point_durability - 2)
 
     def test_should_not_degrade_point_when_writing_whitespace(self):
-        self.pencil.write(Pencil.SPACE, self.paper)
+        self.pencil.write(Pencil.SPACE_CHAR, self.paper)
         self.assertEqual(self.pencil.point_durability,
                          self.initial_point_durability)
 
@@ -70,7 +70,7 @@ class PencilPointDegradationTests(unittest.TestCase):
     def test_should_not_write_uppercase_character_if_only_one_durability_unit(self):
         self.pencil.point_durability = 1
         self.pencil.write('A', self.paper)
-        self.assertEqual(self.paper.text, Pencil.SPACE)
+        self.assertEqual(self.paper.text, Pencil.SPACE_CHAR)
 
     def test_writing_a_number_should_use_two_units_of_durability(self):
         self.pencil.write('1', self.paper)
@@ -80,7 +80,7 @@ class PencilPointDegradationTests(unittest.TestCase):
     def test_should_begin_writing_whitespace_midword_if_point_durability_is_zero(self):
         self.pencil.point_durability = 4
         self.pencil.write('Text', self.paper)
-        self.assertEqual(self.paper.text, 'Tex' + Pencil.SPACE)
+        self.assertEqual(self.paper.text, 'Tex' + Pencil.SPACE_CHAR)
 
 
 class PencilSharpeningTests(unittest.TestCase):
@@ -134,4 +134,5 @@ class PencilEditingTests(unittest.TestCase):
         self.pencil.erase('apple', self.paper)
         self.pencil.edit('artichoke', self.paper)
         self.assertEqual(
-            self.paper.text, f"An artich{Pencil.COLLISION}k{Pencil.COLLISION}ay keeps the doctor away")
+            self.paper.text, f"An artich{Pencil.COLLISION_CHAR}k{Pencil.COLLISION_CHAR}ay keeps the doctor away")
+

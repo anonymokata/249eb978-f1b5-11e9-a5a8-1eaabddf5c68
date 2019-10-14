@@ -1,6 +1,6 @@
 class Pencil:
-    SPACE = ' '
-    COLLISION = '@'
+    SPACE_CHAR = ' '
+    COLLISION_CHAR = '@'
 
     def __init__(self, point_durability, length, eraser):
         self.point_durability = point_durability
@@ -14,9 +14,9 @@ class Pencil:
 
     def _write_char(self, char, index, paper):
         if self.point_durability < self._calculate_write_cost(char):
-            char = Pencil.SPACE
+            char = Pencil.SPACE_CHAR
         elif self._is_collision(index, paper):
-            char = Pencil.COLLISION
+            char = Pencil.COLLISION_CHAR
 
         paper.text = paper.text[:index] + char + paper.text[index + 1:]
 

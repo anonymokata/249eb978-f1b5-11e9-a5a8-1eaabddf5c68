@@ -22,7 +22,7 @@ class Eraser:
             return
 
         self.durability -= self._calculate_erase_cost(paper.text[index])
-        paper.text = paper.text[:index] + Pencil.SPACE + paper.text[index + 1:]
+        paper.text = paper.text[:index] + Pencil.SPACE_CHAR + paper.text[index + 1:]
         paper.last_erased = index
 
     def _calculate_erase_cost(self, char):
