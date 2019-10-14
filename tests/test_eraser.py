@@ -10,11 +10,12 @@ class EraseTests(unittest.TestCase):
         self.eraser = Eraser(durability=1000)
 
     def test_erase_char_should_erase_char_at_index(self):
-        self.eraser.erase_char(paper=self.paper, index=1)
+        self.eraser._erase_char(paper=self.paper, index=1)
         self.assertEqual(self.paper.text, 'A C')
 
     def test_erase_char_should_do_nothing_if_index_out_of_bounds(self):
-        self.eraser.erase_char(self.paper, index=len(self.paper.text) + 100)
+        self.eraser._erase_char(self.paper, index=len(self.paper.text) + 1)
+        self.assertEqual(self.paper.text, 'ABC')
 
     def test_should_erase_text_by_replacing_with_empty_spaces(self):
         self.paper.text = "Charles Mingus"
@@ -43,7 +44,7 @@ class EraseTests(unittest.TestCase):
         self.paper.text = 'Buffalo Bill'
         self.eraser.durability = 3
         self.eraser.erase('Bill', self.paper)
-        self.assertEqual(self.paper.text, 'Buffalo B' + 3 * Eraser.ERASE_CHAR)
+        self.assertEqual(self.paper.text, 'Buffalo B' + (3 * Eraser.ERASE_CHAR))
 
     def test_should_set_last_erased_field_when_erasing(self):
         text = 'ABC'
@@ -51,7 +52,7 @@ class EraseTests(unittest.TestCase):
         self.eraser.erase('B', self.paper)
         self.assertEqual(self.paper.last_erased, 1)
 
-    def test_should_set_last_erased_to_last_character_erased_if_eraser_wears_out(self):
+    def test_should_set_last_erased_to_last_character_erased_if_eraser_wears_out_while_erasing(self):
         self.eraser.durability = 2
         text = 'ABC'
         self.paper.text = text
@@ -67,7 +68,7 @@ class EraserDegradationTests(unittest.TestCase):
 
     def test_erase_char_should_degrade_by_one_if_char_is_alphanum(self):
         initial_eraser_durability = self.eraser.durability
-        self.eraser.erase_char(
+        self.eraser._erase_char(
             paper=self.paper, index=1)
         self.assertEqual(self.eraser.durability,
                          initial_eraser_durability - 1)
@@ -75,7 +76,7 @@ class EraserDegradationTests(unittest.TestCase):
     def test_erase_char_should_degrade_by_zero_if_char_is_space(self):
         initial_eraser_durability = self.eraser.durability
         self.paper.text = ' '
-        self.eraser.erase_char(self.paper, 0)
+        self.eraser._erase_char(self.paper, 0)
         self.assertEqual(self.eraser.durability,
                          initial_eraser_durability)
 
